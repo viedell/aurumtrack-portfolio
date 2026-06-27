@@ -14,16 +14,329 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alerts: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          resolved: boolean
+          resolved_at: string | null
+          severity: Database["public"]["Enums"]["alert_severity"]
+          source: string | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          resolved?: boolean
+          resolved_at?: string | null
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          source?: string | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          resolved?: boolean
+          resolved_at?: string | null
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          source?: string | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      assets: {
+        Row: {
+          acquired_at: string | null
+          asset_type: Database["public"]["Enums"]["asset_type"]
+          authentication_status: Database["public"]["Enums"]["auth_status"]
+          created_at: string
+          current_value: number | null
+          id: string
+          name: string
+          notes: string | null
+          owner_id: string
+          photos: string[] | null
+          purchase_value: number
+          purity: number | null
+          serial_number: string
+          status: Database["public"]["Enums"]["asset_status"]
+          updated_at: string
+          vault_id: string | null
+          weight_g: number
+        }
+        Insert: {
+          acquired_at?: string | null
+          asset_type: Database["public"]["Enums"]["asset_type"]
+          authentication_status?: Database["public"]["Enums"]["auth_status"]
+          created_at?: string
+          current_value?: number | null
+          id?: string
+          name: string
+          notes?: string | null
+          owner_id: string
+          photos?: string[] | null
+          purchase_value: number
+          purity?: number | null
+          serial_number: string
+          status?: Database["public"]["Enums"]["asset_status"]
+          updated_at?: string
+          vault_id?: string | null
+          weight_g: number
+        }
+        Update: {
+          acquired_at?: string | null
+          asset_type?: Database["public"]["Enums"]["asset_type"]
+          authentication_status?: Database["public"]["Enums"]["auth_status"]
+          created_at?: string
+          current_value?: number | null
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_id?: string
+          photos?: string[] | null
+          purchase_value?: number
+          purity?: number | null
+          serial_number?: string
+          status?: Database["public"]["Enums"]["asset_status"]
+          updated_at?: string
+          vault_id?: string | null
+          weight_g?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assets_vault_id_fkey"
+            columns: ["vault_id"]
+            isOneToOne: false
+            referencedRelation: "vaults"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      price_snapshots: {
+        Row: {
+          change_pct_24h: number | null
+          id: string
+          metal: string
+          price_usd_per_oz: number
+          recorded_at: string
+        }
+        Insert: {
+          change_pct_24h?: number | null
+          id?: string
+          metal: string
+          price_usd_per_oz: number
+          recorded_at?: string
+        }
+        Update: {
+          change_pct_24h?: number | null
+          id?: string
+          metal?: string
+          price_usd_per_oz?: number
+          recorded_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          biometric_enabled: boolean
+          created_at: string
+          display_name: string | null
+          id: string
+          identity_verified: boolean
+          mfa_enabled: boolean
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          biometric_enabled?: boolean
+          created_at?: string
+          display_name?: string | null
+          id: string
+          identity_verified?: boolean
+          mfa_enabled?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          biometric_enabled?: boolean
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          identity_verified?: boolean
+          mfa_enabled?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          asset_id: string | null
+          asset_name: string | null
+          created_at: string
+          from_vault_id: string | null
+          hash: string | null
+          id: string
+          notes: string | null
+          to_vault_id: string | null
+          type: Database["public"]["Enums"]["txn_type"]
+          user_id: string
+          value: number | null
+          weight_g: number | null
+        }
+        Insert: {
+          asset_id?: string | null
+          asset_name?: string | null
+          created_at?: string
+          from_vault_id?: string | null
+          hash?: string | null
+          id?: string
+          notes?: string | null
+          to_vault_id?: string | null
+          type: Database["public"]["Enums"]["txn_type"]
+          user_id: string
+          value?: number | null
+          weight_g?: number | null
+        }
+        Update: {
+          asset_id?: string | null
+          asset_name?: string | null
+          created_at?: string
+          from_vault_id?: string | null
+          hash?: string | null
+          id?: string
+          notes?: string | null
+          to_vault_id?: string | null
+          type?: Database["public"]["Enums"]["txn_type"]
+          user_id?: string
+          value?: number | null
+          weight_g?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_from_vault_id_fkey"
+            columns: ["from_vault_id"]
+            isOneToOne: false
+            referencedRelation: "vaults"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_to_vault_id_fkey"
+            columns: ["to_vault_id"]
+            isOneToOne: false
+            referencedRelation: "vaults"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vaults: {
+        Row: {
+          active: boolean
+          address: string | null
+          capacity_kg: number | null
+          code: string
+          created_at: string
+          id: string
+          latitude: number | null
+          location: string
+          longitude: number | null
+          name: string
+        }
+        Insert: {
+          active?: boolean
+          address?: string | null
+          capacity_kg?: number | null
+          code: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          location: string
+          longitude?: number | null
+          name: string
+        }
+        Update: {
+          active?: boolean
+          address?: string | null
+          capacity_kg?: number | null
+          code?: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          location?: string
+          longitude?: number | null
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      alert_severity: "low" | "medium" | "high" | "critical"
+      app_role: "admin" | "moderator" | "user"
+      asset_status: "stored" | "in_transit" | "withdrawn" | "pending"
+      asset_type:
+        | "gold"
+        | "silver"
+        | "platinum"
+        | "palladium"
+        | "diamond"
+        | "other"
+      auth_status: "verified" | "pending" | "unverified"
+      txn_type:
+        | "registration"
+        | "deposit"
+        | "withdrawal"
+        | "transfer"
+        | "ownership_change"
+        | "revaluation"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +463,27 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      alert_severity: ["low", "medium", "high", "critical"],
+      app_role: ["admin", "moderator", "user"],
+      asset_status: ["stored", "in_transit", "withdrawn", "pending"],
+      asset_type: [
+        "gold",
+        "silver",
+        "platinum",
+        "palladium",
+        "diamond",
+        "other",
+      ],
+      auth_status: ["verified", "pending", "unverified"],
+      txn_type: [
+        "registration",
+        "deposit",
+        "withdrawal",
+        "transfer",
+        "ownership_change",
+        "revaluation",
+      ],
+    },
   },
 } as const
