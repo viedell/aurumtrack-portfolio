@@ -100,7 +100,7 @@ function RegisterAsset() {
             </select>
           </Field>
           <Field label="Serial Number" required>
-            <input value={form.serial_number} onChange={(e) => setForm((f) => ({ ...f, serial_number: e.target.value }))} required maxLength={80} className="input font-mono" placeholder="PAMP-2024-99887" />
+            <input value={form.serial_number} onChange={(e) => setForm((f) => ({ ...f, serial_number: e.target.value }))} required minLength={1} maxLength={80} className="input font-mono" placeholder="PAMP-2024-99887" />
           </Field>
           <Field label="Weight (grams)" required>
             <input value={form.weight_g} onChange={(e) => setForm((f) => ({ ...f, weight_g: e.target.value }))} required type="number" step="0.001" min="0.001" className="input font-mono" placeholder="1000" />
