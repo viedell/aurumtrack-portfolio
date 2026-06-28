@@ -1,0 +1,1 @@
+ALTER TABLE public.assets ALTER COLUMN purity TYPE numeric(6,3);
