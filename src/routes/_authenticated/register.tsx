@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/register")({
 const schema = z.object({
   name: z.string().trim().min(2).max(120),
   asset_type: z.enum(["gold", "silver", "platinum", "palladium", "diamond", "other"]),
-  serial_number: z.string().trim().min(3).max(80),
+  serial_number: z.string().trim().min(1).max(80),
   weight_g: z.number().positive().max(1_000_000),
   purity: z.number().min(0).max(1000).optional(),
   purchase_value: z.number().nonnegative().max(1_000_000_000),
